@@ -101,6 +101,39 @@
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       });
+      const ide = document.querySelector('#ide');
+      const terminal = document.querySelector('#terminal');
+      const language = document.querySelector('#language');
+      const solution = document.querySelector('#loadSolution');
+      const run = document.querySelector('#runCode');
+      if (ide && terminal && language && solution && run) {
+        const picker = document.querySelector('.coding-picker');
+        if (picker) picker.style.display = 'none';
+        const codingTitle = document.querySelector('#codingTitle');
+        const codingPrompt = document.querySelector('#codingPrompt');
+        if (codingTitle) codingTitle.textContent = 'Live coding playground';
+        if (codingPrompt) codingPrompt.textContent = 'Choose C, C++, Java, or Python inside the editor, then edit and run your program.';
+        ide.style.display = 'none';
+        terminal.style.display = 'none';
+        language.style.display = 'none';
+        solution.style.display = 'none';
+        run.textContent = 'RUN IN JDoodle ↓';
+        run.className = 'action';
+        const notice = document.createElement('p');
+        notice.className = 'cert-note';
+        notice.textContent = 'This is a live JDoodle sandbox. Choose the language in the editor, edit the code, enter input, and use its Run button to see real compiler output.';
+        const host = document.createElement('div');
+        host.className = 'jdoodle-live-editor';
+        host.setAttribute('data-pym-src', 'https://www.jdoodle.com/embed/v1/751a1a0ba5069cd6');
+        host.style.cssText = 'width:100%;min-height:660px;margin-top:14px;border:1px solid #414349;border-radius:10px;overflow:hidden;background:#0d0e11';
+        ide.parentElement.insertBefore(notice, terminal);
+        ide.parentElement.insertBefore(host, terminal);
+        run.addEventListener('click', () => host.scrollIntoView({behavior:'smooth',block:'center'}));
+        const loader = document.createElement('script');
+        loader.src = 'https://www.jdoodle.com/assets/jdoodle-pym.min.js';
+        loader.type = 'text/javascript';
+        document.body.appendChild(loader);
+      }
     })();
   </script>
 </body></html>
