@@ -88,6 +88,19 @@
           if (progress) progress.style.width = '100%';
         };
       }
+      const lessonSteps = [
+        'Percentage change: convert each change to a multiplier, then multiply. A 20% increase followed by 20% decrease is 1.20 × 0.80 = 0.96.',
+        'Stack operations: write the stack state after every push and pop. The only accessible item is the one at the top.',
+        'Loop invariants: record each variable before the loop body, then update it exactly once per iteration.'
+      ];
+      document.querySelectorAll('.example .mutedbtn').forEach((button, index) => {
+        button.textContent = 'OPEN EXAMPLE';
+        button.addEventListener('click', () => {
+          const panel = document.querySelector('#explain');
+          if (panel) panel.innerHTML = '<b>Worked reasoning.</b> ' + lessonSteps[index];
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
     })();
   </script>
 </body></html>
