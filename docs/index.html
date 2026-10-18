@@ -119,13 +119,22 @@
         solution.style.display = 'none';
         run.textContent = 'RUN IN JDoodle ↓';
         run.className = 'action';
+        const languageTabs = document.createElement('div');
+        languageTabs.className = 'certificate-actions';
+        languageTabs.innerHTML = '<button class="action" data-jdoodle="java">JAVA</button><button class="mutedbtn" data-jdoodle="python">PYTHON</button><button class="mutedbtn" disabled title="JDoodle embed key needed">C · embed needed</button><button class="mutedbtn" disabled title="JDoodle embed key needed">C++ · embed needed</button>';
         const notice = document.createElement('p');
         notice.className = 'cert-note';
         notice.textContent = 'This is a live JDoodle sandbox. Choose the language in the editor, edit the code, enter input, and use its Run button to see real compiler output.';
         const host = document.createElement('div');
         host.className = 'jdoodle-live-editor';
-        host.setAttribute('data-pym-src', 'https://www.jdoodle.com/embed/v1/751a1a0ba5069cd6');
         host.style.cssText = 'width:100%;min-height:660px;margin-top:14px;border:1px solid #414349;border-radius:10px;overflow:hidden;background:#0d0e11';
+        host.innerHTML = '<div data-jdoodle-panel="java" data-pym-src="https://www.jdoodle.com/embed/v1/751a1a0ba5069cd6"></div><div data-jdoodle-panel="python" data-pym-src="https://www.jdoodle.com/embed/v1/7b72330c67c883fc" style="display:none"></div>';
+        languageTabs.querySelectorAll('[data-jdoodle]').forEach((tab) => tab.addEventListener('click', () => {
+          const selected = tab.dataset.jdoodle;
+          host.querySelectorAll('[data-jdoodle-panel]').forEach((panel) => panel.style.display = panel.dataset.jdoodlePanel === selected ? 'block' : 'none');
+          languageTabs.querySelectorAll('[data-jdoodle]').forEach((button) => { button.className = button === tab ? 'action' : 'mutedbtn'; });
+        }));
+        ide.parentElement.insertBefore(languageTabs, terminal);
         ide.parentElement.insertBefore(notice, terminal);
         ide.parentElement.insertBefore(host, terminal);
         run.addEventListener('click', () => host.scrollIntoView({behavior:'smooth',block:'center'}));
